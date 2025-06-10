@@ -1,9 +1,8 @@
 # 🚀 AstroWind
 
-<img src="https://raw.githubusercontent.com/onwidget/.github/main/resources/astrowind/lighthouse-score.png" align="right"
-     alt="AstroWind Lighthouse Score" width="100" height="358">
+![AstroWind Lighthouse Score](https://raw.githubusercontent.com/onwidget/.github/main/resources/astrowind/lighthouse-score.png)
 
-🌟 _Most *starred* & *forked* Astro theme in 2022, 2023 & 2024_. 🌟
+🌟 _Most \_starred_ & _forked_ Astro theme in 2022, 2023 & 2024\_. 🌟
 
 **AstroWind** is a free and open-source template to make your website using **[Astro 5.0](https://astro.build/) + [Tailwind CSS](https://tailwindcss.com/)**. Ready to start a new project and designed taking into account web best practices.
 
@@ -15,8 +14,6 @@
 - ✅ **Open Graph tags** for social media sharing.
 - ✅ **Analytics** built-in Google Analytics, and Splitbee integration.
 
-<br>
-
 ![AstroWind Theme Screenshot](https://raw.githubusercontent.com/onwidget/.github/main/resources/astrowind/screenshot-astrowind-1.0.png)
 
 [![onWidget](https://custom-icon-badges.demolab.com/badge/made%20by%20-onWidget-556bf2?style=flat-square&logo=onwidget&logoColor=white&labelColor=101827)](https://onwidget.com)
@@ -27,10 +24,7 @@
 [![Stars](https://img.shields.io/github/stars/onwidget/astrowind.svg?style=social&label=stars&maxAge=86400&color=ff69b4)](https://github.com/onwidget/astrowind)
 [![Forks](https://img.shields.io/github/forks/onwidget/astrowind.svg?style=social&label=forks&maxAge=86400&color=ff69b4)](https://github.com/onwidget/astrowind)
 
-<br>
-
-<details open>
-<summary>Table of Contents</summary>
+## Table of Contents
 
 - [Demo](#demo)
 - [Upcoming: AstroWind 2.0 – We Need Your Vision!](#-upcoming-astrowind-20--we-need-your-vision)
@@ -45,23 +39,15 @@
 - [Acknowledgements](#acknowledgements)
 - [License](#license)
 
-</details>
-
-<br>
-
 ## Demo
 
 📌 [https://astrowind.vercel.app/](https://astrowind.vercel.app/)
 
-<br>
-
-## 🔔 Upcoming: AstroWind 2.0 – We Need Your Vision!
+## 🔔 Upcoming: AstroWind 2.0 – We Need Your Vision
 
 We're embarking on an exciting journey with **AstroWind 2.0**, and we want you to be a part of it! We're currently taking the first steps in developing this new version and your insights are invaluable. Join the discussion and share your feedback, ideas, and suggestions to help shape the future of **AstroWind**. Let's make **AstroWind 2.0** even better, together!
 
 [Share Your Feedback in Our Discussion!](https://github.com/onwidget/astrowind/discussions/392)
-
-<br>
 
 ## Getting started
 
@@ -75,7 +61,7 @@ In this version the template supports all the options in the `output` configurat
 
 Inside **AstroWind** template, you'll see the following folders and files:
 
-```
+```text
 /
 ├── public/
 │   ├── _headers
@@ -134,8 +120,6 @@ Any static assets, like images, can be placed in the `public/` directory if they
 
 > 🧑‍🚀 **Seasoned astronaut?** Delete this file `README.md`. Update `src/config.yaml` and contents. Have fun!
 
-<br>
-
 ### Commands
 
 All commands are run from the root of the project, from a terminal:
@@ -149,8 +133,6 @@ All commands are run from the root of the project, from a terminal:
 | `npm run check`     | Check your project for errors                      |
 | `npm run fix`       | Run Eslint and format codes with Prettier          |
 | `npm run astro ...` | Run CLI commands like `astro add`, `astro preview` |
-
-<br>
 
 ### Configuration
 
@@ -231,8 +213,6 @@ ui:
   theme: 'system' # Values: "system" | "light" | "dark" | "light:only" | "dark:only"
 ```
 
-<br>
-
 #### Customize Design
 
 To customize Font families, Colors or more Elements refer to the following files:
@@ -266,15 +246,11 @@ Clone this repository on your own GitHub account and deploy to Vercel:
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fonwidget%2Fastrowind)
 
-<br>
-
 ## Frequently Asked Questions
 
 - Why?
 -
 -
-
-<br>
 
 ## Related projects
 

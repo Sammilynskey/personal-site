@@ -1,7 +1,6 @@
 ---
+import { Icon } from 'astro-icon/components';
 import FormContainer from '~/components/ui/Form.astro';
-import Headline from '~/components/ui/Headline.astro';
-import WidgetWrapper from '~/components/ui/WidgetWrapper.astro';
 import type { Contact as Props } from '~/types';
 
 const {
@@ -13,28 +12,48 @@ const {
   disclaimer,
   button,
   description,
-
-  id,
-  isDark = false,
-  classes = {},
-  bg = await Astro.slots.render('bg'),
+  socialLinks = [],
 } = Astro.props;
 ---
 
-<WidgetWrapper id={id} isDark={isDark} containerClass={`max-w-7xl mx-auto ${classes?.container ?? ''}`} bg={bg}>
-  <Headline title={title} subtitle={subtitle} tagline={tagline} />
+<div class="w-full bg-[linear-gradient(to_right,_rgb(123_16_230),_rgb(100_10_200))] py-8">
+  <div class="max-w-5xl mx-auto px-4">
+    <div class="text-white text-center mb-8">
+      <h2 class="text-4xl font-bold">{title}</h2>
+      {subtitle && <p class="mt-2 text-white">{subtitle}</p>}
+      {tagline && <p class="mt-1 text-white">{tagline}</p>}
+    </div>
 
-  {
-    inputs && (
-      <div class="flex flex-col max-w-xl mx-auto rounded-lg backdrop-blur border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-900 shadow p-4 sm:p-6 lg:p-8 w-full">
-        <FormContainer
-          inputs={inputs}
-          textarea={textarea}
-          disclaimer={disclaimer}
-          button={button}
-          description={description}
-        />
-      </div>
-    )
-  }
-</WidgetWrapper>
+    {
+      inputs && (
+        <div class="flex flex-col max-w-xl mx-auto rounded-lg backdrop-blur border border-white bg-white/10 shadow-lg p-6 w-full">
+          <FormContainer
+            inputs={inputs}
+            textarea={textarea}
+            disclaimer={disclaimer}
+            button={button}
+            description={description}
+          />
+        </div>
+      )
+    }
+
+    {
+      socialLinks && socialLinks.length > 0 && (
+        <div class="flex justify-center gap-6 mt-8">
+          {socialLinks.map(({ platform, icon, url }) => (
+            <a
+              href={url}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={platform}
+              class="inline-flex items-center justify-center p-3 border border-white rounded-full hover:bg-white hover:bg-opacity-20 transition duration-300"
+            >
+              <Icon name={icon} class="w-12 h-12 text-white" />
+            </a>
+          ))}
+        </div>
+      )
+    }
+  </div>
+</div>

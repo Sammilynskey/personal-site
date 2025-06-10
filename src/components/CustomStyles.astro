@@ -32,9 +32,14 @@ import '@fontsource-variable/inter';
     --aw-color-text-heading: rgb(0 0 0);
     --aw-color-text-default: rgb(16 16 16);
     --aw-color-text-muted: rgb(16 16 16 / 66%);
-    --aw-color-bg-page: rgb(255 255 255);
+    --aw-color-bg-page: linear-gradient(to bottom, rgb(245 245 245), rgb(230 230 230));
 
-    --aw-color-bg-page-dark: rgb(3 6 32);
+    /* Alternating background colors with "alt" naming */
+    --aw-color-alt-light: rgb(255 255 255);
+    --aw-color-alt-dark: rgb(245 245 245);
+    --aw-color-alt-accent: linear-gradient(to right, rgb(123 16 230), rgb(100 10 200));
+
+    --aw-color-bg-page-dark: linear-gradient(to bottom, rgb(15 0 25), rgb(50 0 75));
 
     ::selection {
       background-color: lavender;
@@ -53,7 +58,12 @@ import '@fontsource-variable/inter';
     --aw-color-text-heading: rgb(247, 248, 248);
     --aw-color-text-default: rgb(229 236 246);
     --aw-color-text-muted: rgb(229 236 246 / 66%);
-    --aw-color-bg-page: rgb(3 6 32);
+    --aw-color-bg-page: var(--aw-color-bg-page-dark);
+
+    /* Alternating background colors for dark mode with "alt" naming */
+    --aw-color-alt-light: rgb(30 30 33);
+    --aw-color-alt-dark: rgb(15 15 17);
+    --aw-color-alt-accent: linear-gradient(to right, rgb(123 16 230), rgb(100 10 200));
 
     ::selection {
       background-color: black;

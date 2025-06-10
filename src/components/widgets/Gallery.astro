@@ -1,0 +1,320 @@
+---
+// Imports at the top
+import { Icon } from 'astro-icon/components';
+import { type Widget } from '~/types';
+
+// Type definitions
+export interface GalleryItem {
+  type: 'image' | 'video';
+  src: string;
+  alt?: string;
+  poster?: string;
+}
+
+export interface Props extends Widget {
+  title?: string;
+  subtitle?: string;
+  items: GalleryItem[];
+  slidesPerView?: {
+    base?: number;
+    sm?: number;
+    md?: number;
+    lg?: number;
+  };
+  spaceBetween?: number;
+  showPagination?: boolean;
+  showNavigation?: boolean;
+  showLightbox?: boolean;
+  aspectRatio?: string;
+  imageClass?: string;
+  classes?: {
+    container?: string;
+    title?: string;
+    subtitle?: string;
+    swiper?: string;
+  };
+}
+
+// Props with defaults
+const {
+  id,
+  isDark = false,
+  bg = '',
+  classes = {},
+  title = '',
+  subtitle = '',
+  items = [],
+  slidesPerView = { base: 1, sm: 2, lg: 3 },
+  spaceBetween = 20,
+  showPagination = true,
+  showNavigation = true,
+  showLightbox = true,
+  aspectRatio = 'aspect-video',
+  imageClass = 'w-full h-full object-cover rounded-lg',
+} = Astro.props;
+---
+
+<div id={id} class:list={['w-full', bg, isDark && 'dark', classes?.container]}>
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 py-12">
+    {
+      (title || subtitle) && (
+        <div class="mb-8 md:mx-auto text-center max-w-3xl">
+          {title && (
+            <h2 class:list={['text-3xl md:text-4xl font-bold leading-tighter tracking-tighter mb-4', classes?.title]}>
+              {title}
+            </h2>
+          )}
+          {subtitle && <p class:list={['text-xl text-muted', classes?.subtitle]}>{subtitle}</p>}
+        </div>
+      )
+    }
+
+    <div
+      class:list={['swiper gallery-swiper', classes?.swiper]}
+      data-slides-base={slidesPerView.base}
+      data-slides-sm={slidesPerView.sm}
+      data-slides-md={slidesPerView.md}
+      data-slides-lg={slidesPerView.lg}
+      data-space-between={spaceBetween}
+    >
+      <div class="swiper-wrapper">
+        {
+          items.map((item, index) => (
+            <div class="swiper-slide">
+              <div
+                class="bg-white p-2 rounded-xl shadow-lg overflow-hidden cursor-pointer gallery-item"
+                data-index={index}
+              >
+                {item.type === 'video' ? (
+                  <div class={`relative ${aspectRatio}`}>
+                    <video src={item.src} poster={item.poster || ''} class={imageClass} playsinline />
+                    <div class="absolute inset-0 flex items-center justify-center">
+                      <div class="bg-black/30 rounded-full p-3">
+                        <Icon name="tabler:player-play" class="w-8 h-8 text-white" />
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <img src={item.src} alt={item.alt || 'Gallery image'} class={imageClass} />
+                )}
+              </div>
+            </div>
+          ))
+        }
+      </div>
+
+      {showPagination && <div class="swiper-pagination" />}
+      {
+        showNavigation && (
+          <>
+            <div class="swiper-button-prev" />
+            <div class="swiper-button-next" />
+          </>
+        )
+      }
+    </div>
+  </div>
+</div>
+
+{
+  showLightbox && (
+    <div id="gallery-lightbox" class="fixed inset-0 bg-black/90 z-50 hidden">
+      <button id="close-lightbox" class="absolute top-6 right-6 text-white hover:text-gray-300 z-10">
+        <Icon name="tabler:x" class="w-8 h-8" />
+      </button>
+      <div class="swiper lightbox-swiper h-full">
+        <div class="swiper-wrapper">
+          {items.map((item) => (
+            <div class="swiper-slide flex items-center justify-center">
+              {item.type === 'video' ? (
+                <video
+                  src={item.src}
+                  poster={item.poster || ''}
+                  controls
+                  class="max-w-full max-h-[90vh]"
+                  muted
+                  playsinline
+                  data-video-slide
+                />
+              ) : (
+                <img src={item.src} alt={item.alt || 'Gallery image'} class="max-w-full max-h-[90vh]" />
+              )}
+            </div>
+          ))}
+        </div>
+
+        <div class="swiper-pagination" />
+        <div class="swiper-button-prev" />
+        <div class="swiper-button-next" />
+      </div>
+    </div>
+  )
+}
+
+<style is:global>
+  :root {
+    --swiper-theme-color: #8481fb;
+  }
+  .swiper {
+    width: 100%;
+    padding-bottom: 40px;
+  }
+  .gallery-item {
+    position: relative;
+  }
+  .lightbox-swiper {
+    height: 100%;
+  }
+  .lightbox-swiper .swiper-slide {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  /* Add Swiper's required CSS if not already imported elsewhere */
+  .swiper-button-prev,
+  .swiper-button-next {
+    color: var(--swiper-theme-color);
+  }
+  .swiper-pagination-bullet-active {
+    background: var(--swiper-theme-color);
+  }
+</style>
+
+<script>
+  import Swiper from 'swiper';
+  import { Navigation, Pagination, A11y } from 'swiper/modules';
+  import 'swiper/css';
+  import 'swiper/css/navigation';
+  import 'swiper/css/pagination';
+
+  function initializeSwiper() {
+    const swiperEl = document.querySelector('.gallery-swiper');
+    const slidesPerViewBase = swiperEl?.getAttribute('data-slides-base') || '1';
+    const slidesPerViewSm = swiperEl?.getAttribute('data-slides-sm') || '2';
+    const slidesPerViewMd = swiperEl?.getAttribute('data-slides-md') || '2';
+    const slidesPerViewLg = swiperEl?.getAttribute('data-slides-lg') || '3';
+    const spaceBetween = swiperEl?.getAttribute('data-space-between') || '20';
+
+    const hasNavigation = document.querySelector('.swiper-button-next') !== null;
+    const hasPagination = document.querySelector('.swiper-pagination') !== null;
+
+    const baseSwiperConfig = {
+      modules: [Navigation, Pagination, A11y],
+      pagination: hasPagination
+        ? {
+            el: '.swiper-pagination',
+            clickable: true,
+          }
+        : false,
+      navigation: hasNavigation
+        ? {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          }
+        : false,
+    };
+
+    const breakpoints = {
+      640: { slidesPerView: parseInt(slidesPerViewSm as string) },
+      768: { slidesPerView: parseInt(slidesPerViewMd as string) },
+      1024: { slidesPerView: parseInt(slidesPerViewLg as string) },
+    };
+
+    // Initialize gallery swiper
+    const gallerySwipers = document.querySelectorAll('.gallery-swiper');
+    gallerySwipers.forEach((swiperElement) => {
+      new Swiper(swiperElement as HTMLElement, {
+        ...baseSwiperConfig,
+        slidesPerView: parseInt(slidesPerViewBase as string),
+        spaceBetween: parseInt(spaceBetween as string),
+        breakpoints,
+      });
+    });
+
+    // Initialize lightbox if it exists
+    const lightbox = document.getElementById('gallery-lightbox');
+    if (lightbox) {
+      const closeLightbox = document.getElementById('close-lightbox');
+      const galleryItems = document.querySelectorAll('.gallery-item');
+
+      let activeVideoIndex = -1;
+
+      const lightboxSwiper = new Swiper('.lightbox-swiper', {
+        ...baseSwiperConfig,
+        slidesPerView: 1,
+        spaceBetween: 0,
+        on: {
+          slideChange: function () {
+            // Pause all videos when changing slides
+            const videos = lightbox.querySelectorAll('video');
+            videos.forEach((video) => video.pause());
+
+            // Start playing the video on the active slide if it's a video
+            const activeSlideIndex = this.activeIndex;
+            const activeSlide = this.slides[activeSlideIndex];
+            const activeVideo = activeSlide?.querySelector('video');
+            if (activeVideo && activeVideoIndex === activeSlideIndex) {
+              activeVideo.muted = true;
+              activeVideo.play();
+            }
+          },
+        },
+      });
+
+      const openLightbox = (index) => {
+        lightbox.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+        lightboxSwiper.slideTo(index, 0);
+
+        // Store the index and play the video if it's a video slide
+        activeVideoIndex = index;
+        setTimeout(() => {
+          const activeSlide = lightboxSwiper.slides[index];
+          const activeVideo = activeSlide?.querySelector('video');
+          if (activeVideo) {
+            activeVideo.muted = true;
+            activeVideo.play();
+          }
+        }, 100);
+      };
+
+      const closeLightboxHandler = () => {
+        lightbox.classList.add('hidden');
+        document.body.style.overflow = '';
+        const videos = lightbox.querySelectorAll('video');
+        videos.forEach((video) => video.pause());
+        activeVideoIndex = -1;
+      };
+
+      galleryItems.forEach((item, index) => {
+        item.addEventListener('click', () => openLightbox(index));
+      });
+
+      if (closeLightbox) {
+        closeLightbox.addEventListener('click', closeLightboxHandler);
+      }
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && !lightbox.classList.contains('hidden')) {
+          closeLightboxHandler();
+        }
+      });
+
+      // Add click-to-unmute functionality
+      const lightboxVideos = lightbox.querySelectorAll('video');
+      lightboxVideos.forEach((video) => {
+        video.addEventListener('click', function (e) {
+          e.preventDefault();
+          // Toggle mute status when video is clicked
+          this.muted = !this.muted;
+        });
+      });
+    }
+  }
+
+  // Initialize when the DOM is fully loaded
+  document.addEventListener('DOMContentLoaded', initializeSwiper);
+
+  // Also initialize after Astro's view transitions if present
+  document.addEventListener('astro:page-load', initializeSwiper);
+</script>
